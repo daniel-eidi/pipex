@@ -6,7 +6,7 @@
 #    By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/03 18:17:47 by daeidi-h          #+#    #+#              #
-#    Updated: 2022/05/03 18:18:28 by daeidi-h         ###   ########.fr        #
+#    Updated: 2022/05/09 17:33:40 by daeidi-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,8 +70,8 @@ LDLIBS = -lft
 #                                   SOURCES                                    #
 # **************************************************************************** #
 
-SRC_FILES = main.c utils.c
-SRC_FILES_BONUS = main_bonus.c utils.c
+SRC_FILES = main.c utils.c ft_get_next_line.c
+SRC_FILES_BONUS = main_bonus.c utils.c ft_get_next_line.c here_doc.c
 
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_FILES))
 SRC_BONUS = $(addprefix $(SRC_PATH)/, $(SRC_FILES_BONUS))

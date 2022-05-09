@@ -6,19 +6,22 @@
 /*   By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:20:44 by daeidi-h          #+#    #+#             */
-/*   Updated: 2022/05/05 23:02:21 by daeidi-h         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:27:50 by daeidi-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <stdio.h>
+#include <pipex.h>
 
-static void	free_ptr(char **str)
+void	free_ptr(char **str)
 {
 	free (*str);
 	*str = NULL;
 }
 
-static char	*save_line(int r, char **last_line, char **currentline)
+static char	*save_line(int r, char **last_line, \
+char **currentline, char *limiter)
 {
 	char	*temp;
 
@@ -27,7 +30,7 @@ static char	*save_line(int r, char **last_line, char **currentline)
 		free_ptr(last_line);
 		return (NULL);
 	}
-	else if (!ft_strchr(*last_line, '\n') && !last_line)
+	else if (!ft_strncmp(*last_line, limiter, ft_strlen(limiter)))
 	{
 		*currentline = ft_strdup(*last_line);
 		free_ptr(last_line);
@@ -44,44 +47,51 @@ static char	*save_line(int r, char **last_line, char **currentline)
 	return (*currentline);
 }
 
-static char	*load(char **last_line, char **buf, int fd, char **current_line)
+static int	check(int fd, char *buf)
+{
+	if (!buf)
+		return (1);
+	if (read(fd, buf, 0) < 0)
+	{
+		free_ptr(&buf);
+		return (1);
+	}
+	return (0);
+}
+
+static char	*load(char **last_line, int fd, char **current_line, char *limiter)
 {
 	char	*temp;
 	int		r;
+	char	*buf;
 
+	buf = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (check(fd, buf))
+		return (NULL);
 	r = 1;
 	if (!*last_line)
 		*last_line = ft_strdup("");
 	while (!ft_strchr(*last_line, '\n') \
 	&& (r > 0))
 	{	
-		r = read(fd, *buf, BUFFER_SIZE);
-		(*buf)[r] = '\0';
+		r = read(fd, buf, BUFFER_SIZE);
+		(buf)[r] = '\0';
 		temp = *last_line;
-		*last_line = ft_strjoin(temp, *buf);
+		*last_line = ft_strjoin(temp, buf);
 		free_ptr(&temp);
 	}
-	free_ptr(buf);
-	return (save_line(r, last_line, current_line));
+	free_ptr(&buf);
+	return (save_line(r, last_line, current_line, limiter));
 }
 
-char	*ft_get_next_line(int fd)
+char	*ft_get_next_line_lim(int fd, char *limiter)
 {
-	char		*buf;
 	static char	*last_line = NULL;
 	char		*current_line;
 
-	buf = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (NULL);
-	if (read(fd, buf, 0) < 0)
-	{
-		free_ptr(&buf);
-		return (NULL);
-	}
-	current_line = load(&last_line, &buf, fd, &current_line);
+	current_line = load(&last_line, fd, &current_line, limiter);
 	return (current_line);
 }

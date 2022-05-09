@@ -6,10 +6,9 @@
 /*   By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 12:53:38 by daeidi-h          #+#    #+#             */
-/*   Updated: 2022/05/01 22:12:52 by daeidi-h         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:29:27 by daeidi-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PIPEX_H
 # define PIPEX_H
@@ -32,11 +31,14 @@
 # include <sys/wait.h>
 # include <libft.h>
 
-/* utils.c */
-void	error(const char *s);
-char	*get_path(char *cmd, const char *path);
+void	error(const char *s, int i);
+char	*get_path(char **cmd, const char *path);
 int		open_ok(char *file, int flag);
 void	restore_spaces(char **exec_args);
 char	**trat_arg(char *cmd);
+char	*ft_get_next_line_lim(int fd, char *limiter);
+void	free_split(char **str);
+void	free_ptr(char **str);
+void	create_heredoc(char *argv_limiter);
 
 #endif
