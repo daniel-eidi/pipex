@@ -6,7 +6,7 @@
 /*   By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 12:53:38 by daeidi-h          #+#    #+#             */
-/*   Updated: 2022/05/09 19:29:27 by daeidi-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 01:11:33 by daeidi-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 void	error(const char *s, int i);
 char	*get_path(char **cmd, const char *path);
-int		open_ok(char *file, int flag);
+int		open_ok(char *file, int flag, int inout);
 void	restore_spaces(char **exec_args);
 char	**trat_arg(char *cmd);
 char	*ft_get_next_line_lim(int fd, char *limiter);

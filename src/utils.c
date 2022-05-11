@@ -6,7 +6,7 @@
 /*   By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 12:48:08 by daeidi-h          #+#    #+#             */
-/*   Updated: 2022/05/09 19:10:21 by daeidi-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:51:04 by daeidi-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ void	error(const char *s, int i)
 	exit(EXIT_SUCCESS);
 }
 
-int	open_ok(char *file, int flag)
+int	open_ok(char *file, int flag, int inout)
 {
 	int	fd;
 
 	fd = open(file, flag, 0644);
-	if (fd == -1)
-		error("Could not open file", 1);
+	if (fd == -1 && inout == 0)
+		error("infile", 1);
+	if (fd == -1 && inout == 1)
+		error("outfile", 1);
 	return (fd);
 }
 

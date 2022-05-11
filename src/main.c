@@ -6,7 +6,7 @@
 /*   By: daeidi-h <daeidi-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 00:50:46 by daeidi-h          #+#    #+#             */
-/*   Updated: 2022/05/09 19:11:25 by daeidi-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:47:06 by daeidi-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	pipe_exec(char **argv, int i)
 	{
 		if (i == 2)
 		{
-			fd[READ_END] = open_ok(argv[1], O_RDONLY);
+			fd[READ_END] = open_ok(argv[1], O_RDONLY, 0);
 			dup2(fd[READ_END], STDIN_FILENO);
 		}
 		dup2(fd[WRITE_END], STDOUT_FILENO);
@@ -77,7 +77,7 @@ int	main(int argc, char *argv[])
 	i = 1;
 	if (argc == 5)
 	{
-		fd_1[F_O] = open_ok(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC);
+		fd_1[F_O] = open_ok(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 1);
 		while (++i < argc - 2)
 			pipe_exec(argv, i);
 		dup2(fd_1[F_O], STDOUT_FILENO);
